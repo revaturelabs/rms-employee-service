@@ -6,23 +6,26 @@ import com.revature.rms.employee.entities.Department;
 import com.revature.rms.employee.entities.Employee;
 import com.revature.rms.employee.entities.ResourceMetadata;
 import com.revature.rms.employee.entities.Title;
+import com.revature.rms.employee.exceptions.EnumMappingException;
+import com.revature.rms.employee.exceptions.InvalidRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 
+// TODO document class and methods
+
 @Service
-public class EmployeeService {
+public class EmployeeServiceImpl implements EmployeeService {
 
     private EmployeeRepository employeeRepo;
 
     @Autowired
-    public EmployeeService(EmployeeRepository repo) {
+    public EmployeeServiceImpl(EmployeeRepository repo) {
         employeeRepo = repo;
     }
 
@@ -41,13 +44,11 @@ public class EmployeeService {
                 break;
 
             case "department":
-                Department dept = Department.findByName(values[0]);
-                result = this.employeeRepo.findEmployeesByDepartment(dept).map(EmployeeResource::new);
+                result = getEmployeesByDepartment(values[0]);
                 break;
 
             case "title":
-                Title title = Title.findByName(values[0]);
-                result = this.employeeRepo.findEmployeesByTitle(title).map(EmployeeResource::new);
+                result = getEmployeesByTitle(values[0]);
                 break;
 
             default:
@@ -71,18 +72,44 @@ public class EmployeeService {
 
     }
 
-    protected Flux<EmployeeResource> getEmployeesByIds(String[] ids) {
+    // TODO implement EmployeeServiceImpl.updateEmployee
+    public Mono<Void> updateEmployee(EmployeeResource updatedEmp) {
+        return null;
+    }
+
+    // TODO implement EmployeeServiceImpl.deactivateEmployeeById
+    public Mono<Void> deactivateEmployeeById(String id) {
+        return null;
+    }
+
+    private Flux<EmployeeResource> getEmployeesByIds(String[] ids) {
         Collection<String> id = Arrays.asList(ids);
         return this.employeeRepo.findAllById(id).map(EmployeeResource::new);
     }
 
-    protected Flux<EmployeeResource> getEmployeesByDepartment(String deptString) {
-        Department dept = Department.findByName(deptString);
+    private Flux<EmployeeResource> getEmployeesByDepartment(String deptString) {
+
+        Department dept = null;
+
+        try {
+            dept = Department.findByName(deptString);
+        } catch (EnumMappingException e) {
+            throw new InvalidRequestException(e);
+        }
+
         return this.employeeRepo.findEmployeesByDepartment(dept).map(EmployeeResource::new);
     }
 
-    protected Flux<EmployeeResource> getEmployeesByTitle(String titleString) {
-        Title title = Title.findByName(titleString);
+    private Flux<EmployeeResource> getEmployeesByTitle(String titleString) {
+
+        Title title = null;
+
+        try {
+            title = Title.findByName(titleString);
+        } catch (EnumMappingException e) {
+            throw new InvalidRequestException(e);
+        }
+
         return this.employeeRepo.findEmployeesByTitle(title).map(EmployeeResource::new);
     }
 
