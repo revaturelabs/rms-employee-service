@@ -1,4 +1,13 @@
 package com.revature.rms.employee.exceptions;
 
-public class EnumMappingException {
+public class EnumMappingException extends RuntimeException {
+
+    public EnumMappingException() {
+        super();
+    }
+
+    public EnumMappingException(String s) {
+        super(s);
+    }
+
 }
