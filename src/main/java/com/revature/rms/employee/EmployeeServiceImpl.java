@@ -8,6 +8,7 @@ import com.revature.rms.employee.entities.ResourceMetadata;
 import com.revature.rms.employee.entities.Title;
 import com.revature.rms.employee.exceptions.EnumMappingException;
 import com.revature.rms.employee.exceptions.InvalidRequestException;
+import com.revature.rms.employee.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
@@ -16,6 +17,7 @@ import reactor.core.publisher.Mono;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 // TODO document class and methods
 
@@ -55,6 +57,16 @@ public class EmployeeServiceImpl implements EmployeeService {
                 throw new RuntimeException("Invalid field provided!");
 
         }
+
+        result.collectList().flatMap(list -> {
+
+            if (list.isEmpty()) {
+                return Mono.error(new ResourceNotFoundException("No resources found with provided field data."));
+            }
+
+            return Mono.just(list);
+
+        });
 
         return result;
 
