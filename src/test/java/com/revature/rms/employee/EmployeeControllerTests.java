@@ -79,7 +79,7 @@ public class EmployeeControllerTests {
     }
 
     @Test
-    void testGetEmployeeById() {
+    void testGetEmployeeByKnownId() {
 
         EmployeeResource employee1 = new EmployeeResource(new Employee("abc1", "test-fn-1", "test-ln-1",
                 "test-email-1", Title.TRAINER, Department.TRAINING, new ResourceMetadata()));
