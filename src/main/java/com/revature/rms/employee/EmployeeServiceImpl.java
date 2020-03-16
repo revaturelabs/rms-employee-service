@@ -53,9 +53,6 @@ public class EmployeeServiceImpl implements EmployeeService {
                 result = getEmployeesByTitle(values[0]);
                 break;
 
-            default:
-                throw new RuntimeException("Invalid field provided!");
-
         }
 
         result.collectList().flatMap(list -> {
