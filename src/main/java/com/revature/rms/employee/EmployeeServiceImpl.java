@@ -1,6 +1,7 @@
 package com.revature.rms.employee;
 
 import com.revature.rms.employee.dtos.EmployeeResource;
+import com.revature.rms.employee.dtos.GetEmployeeByFieldRequest;
 import com.revature.rms.employee.dtos.NewEmployeeRequest;
 import com.revature.rms.employee.entities.Department;
 import com.revature.rms.employee.entities.Employee;
@@ -9,6 +10,7 @@ import com.revature.rms.employee.entities.Title;
 import com.revature.rms.employee.exceptions.EnumMappingException;
 import com.revature.rms.employee.exceptions.InvalidRequestException;
 import com.revature.rms.employee.exceptions.ResourceNotFoundException;
+import com.revature.rms.employee.exceptions.ResourcePersistenceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
@@ -17,7 +19,6 @@ import reactor.core.publisher.Mono;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
 
 // TODO document class and methods
 
@@ -35,49 +36,65 @@ public class EmployeeServiceImpl implements EmployeeService {
         return this.employeeRepo.findAll().map(EmployeeResource::new);
     }
 
-    public Flux<EmployeeResource> getEmployeesByField(String field, String[] values) {
+    public Flux<EmployeeResource> getEmployeesByField(GetEmployeeByFieldRequest request) {
+
+        if (request == null || request.getField() == null || request.getValues() == null
+            || request.getField().isEmpty() || request.getValues().length == 0)
+        {
+            throw new InvalidRequestException("Invalid request object provided.");
+        }
+
 
         Flux<EmployeeResource> result = Flux.empty();
 
-        switch (field) {
+        switch (request.getField().toLowerCase()) {
 
             case "id":
-                result = getEmployeesByIds(values);
+                result = getEmployeesByIds(request.getValues());
+                break;
+
+            case "email":
+                result = getEmployeeByEmail(request.getValues()[0]).flux();
                 break;
 
             case "department":
-                result = getEmployeesByDepartment(values[0]);
+                result = getEmployeesByDepartment(request.getValues()[0]);
                 break;
 
             case "title":
-                result = getEmployeesByTitle(values[0]);
+                result = getEmployeesByTitle(request.getValues()[0]);
                 break;
 
         }
 
-        result.collectList().flatMap(list -> {
-
-            if (list.isEmpty()) {
-                return Mono.error(new ResourceNotFoundException("No resources found with provided field data."));
-            }
-
-            return Mono.just(list);
-
-        });
-
-        return result;
+        return result.switchIfEmpty(Mono.error(new ResourceNotFoundException("No resources found with provided field data.")));
 
     }
 
-    public Mono<EmployeeResource> saveNewEmployee(NewEmployeeRequest newEmpResource) {
+    public Mono<EmployeeResource> saveNewEmployee(NewEmployeeRequest request) {
 
-        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime creationDT = LocalDateTime.now();
+        ResourceMetadata metadata = new ResourceMetadata(1, creationDT, 1, creationDT, 1);
 
-        Employee newEmp = new Employee(newEmpResource);
-        ResourceMetadata metadata = new ResourceMetadata(1, now, 1, now, 1);
-        newEmp.setMetadata(metadata);
+        Employee newEmp = new Employee()
+            .setFirstName(request.getFirstName())
+            .setLastName(request.getLastName())
+            .setEmail(request.getEmail())
+            .setTitle(Title.findByName(request.getTitle()))
+            .setDepartment(Department.findByName(request.getDepartment()))
+            .setMetadata(metadata);
 
-        return this.employeeRepo.save(newEmp).map(EmployeeResource::new);
+        if (request.getManagerId() == null || request.getManagerId().equals("")) {
+            return employeeRepo.save(newEmp)
+                               .switchIfEmpty(Mono.error(new ResourcePersistenceException("Could not persist employee.")))
+                               .map(EmployeeResource::new);
+
+        } else {
+            return employeeRepo.findById(request.getManagerId())
+                    .flatMap(mngr -> Mono.just(newEmp).flatMap(emp -> employeeRepo.save(emp.setManager(mngr))))
+                    .switchIfEmpty(Mono.error(new ResourcePersistenceException("Could not persist employee.")))
+                    .map(EmployeeResource::new);
+        }
 
     }
 
@@ -91,7 +108,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         return null;
     }
 
-    private Flux<EmployeeResource> getEmployeesByIds(String[] ids) {
+    private Flux<EmployeeResource> getEmployeesByIds(String... ids) {
         Collection<String> id = Arrays.asList(ids);
         return this.employeeRepo.findAllById(id).map(EmployeeResource::new);
     }
@@ -120,6 +137,10 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
 
         return this.employeeRepo.findEmployeesByTitle(title).map(EmployeeResource::new);
+    }
+
+    private Mono<EmployeeResource> getEmployeeByEmail(String email) {
+        return this.employeeRepo.findEmployeeByEmail(email).map(EmployeeResource::new);
     }
 
 }

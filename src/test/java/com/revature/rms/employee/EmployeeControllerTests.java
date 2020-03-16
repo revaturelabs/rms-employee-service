@@ -9,7 +9,6 @@ import com.revature.rms.employee.entities.Title;
 
 import com.revature.rms.employee.exceptions.ResourceNotFoundException;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -18,7 +17,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -44,10 +42,11 @@ public class EmployeeControllerTests {
     void testGetAllEmployees() {
 
         EmployeeResource employee1 = new EmployeeResource(new Employee("abc1", "test-fn-1", "test-ln-1",
-                "test-email-1", Title.TRAINER, Department.TRAINING, new ResourceMetadata()));
+                "test-email-1", null, Title.TRAINER, Department.TRAINING, new ResourceMetadata()));
 
         EmployeeResource employee2 = new EmployeeResource(new Employee("abc2", "test-fn-2", "test-ln-2",
-                "test-email-2", Title.SENIOR_TRAINER, Department.TRAINING, new ResourceMetadata()));
+                "test-email-2",employee1.getEmployeeEntity(), Title.SENIOR_TRAINER, Department.TRAINING,
+                new ResourceMetadata()));
 
         employees = new EmployeeResource[] {
                 employee1, employee2
@@ -83,7 +82,7 @@ public class EmployeeControllerTests {
     void testGetEmployeeByKnownId() {
 
         EmployeeResource employee1 = new EmployeeResource(new Employee("abc1", "test-fn-1", "test-ln-1",
-                "test-email-1", Title.TRAINER, Department.TRAINING, new ResourceMetadata()));
+                "test-email-1", null, Title.TRAINER, Department.TRAINING, new ResourceMetadata()));
 
         employees = new EmployeeResource[] {
                 employee1
@@ -91,7 +90,7 @@ public class EmployeeControllerTests {
 
         GetEmployeeByFieldRequest req = new GetEmployeeByFieldRequest("id", new String[] {"abc1"});
 
-        when(employeeService.getEmployeesByField(req.getField(), req.getValues())).thenReturn(Flux.just(employees));
+        when(employeeService.getEmployeesByField(req)).thenReturn(Flux.just(employees));
 
         StepVerifier.create(sut.getEmployeesByField(req))
                 .assertNext(er1 -> {
@@ -105,7 +104,7 @@ public class EmployeeControllerTests {
                 .expectComplete()
                 .verify();
 
-        verify(employeeService, times(1)).getEmployeesByField(req.getField(), req.getValues());
+        verify(employeeService, times(1)).getEmployeesByField(req);
 
     }
 
@@ -114,13 +113,13 @@ public class EmployeeControllerTests {
 
         GetEmployeeByFieldRequest req = new GetEmployeeByFieldRequest("id", new String[] {"abc0"});
 
-        when(employeeService.getEmployeesByField(req.getField(), req.getValues())).thenReturn(Flux.error(new ResourceNotFoundException("")));
+        when(employeeService.getEmployeesByField(req)).thenReturn(Flux.error(new ResourceNotFoundException("")));
 
         StepVerifier.create(sut.getEmployeesByField(req))
                 .expectError()
                 .verify();
 
-        verify(employeeService, times(1)).getEmployeesByField(req.getField(), req.getValues());
+        verify(employeeService, times(1)).getEmployeesByField(req);
 
     }
 
@@ -128,13 +127,15 @@ public class EmployeeControllerTests {
     void testGetEmployeesByTitle() {
 
         EmployeeResource employee1 = new EmployeeResource(new Employee("abc1", "test-fn-1", "test-ln-1",
-                "test-email-1", Title.TRAINER, Department.TRAINING, new ResourceMetadata()));
+                "test-email-1", null, Title.MANAGER_OF_TECH, Department.TRAINING, new ResourceMetadata()));
 
         EmployeeResource employee2 = new EmployeeResource(new Employee("abc2", "test-fn-2", "test-ln-2",
-                "test-email-2", Title.TRAINER, Department.TRAINING, new ResourceMetadata()));
+                "test-email-2", employee1.getEmployeeEntity(), Title.TRAINER, Department.TRAINING,
+                new ResourceMetadata()));
 
         EmployeeResource employee3 = new EmployeeResource(new Employee("abc3", "test-fn-3", "test-ln-3",
-                "test-email-3", Title.SENIOR_TRAINER, Department.TRAINING, new ResourceMetadata()));
+                "test-email-3", employee1.getEmployeeEntity(), Title.TRAINER, Department.TRAINING,
+                new ResourceMetadata()));
 
         employees = new EmployeeResource[] {
                 employee1, employee2
@@ -142,7 +143,7 @@ public class EmployeeControllerTests {
 
         GetEmployeeByFieldRequest req = new GetEmployeeByFieldRequest("title", new String[] {"Trainer"});
 
-        when(employeeService.getEmployeesByField(req.getField(), req.getValues())).thenReturn(Flux.just(employees));
+        when(employeeService.getEmployeesByField(req)).thenReturn(Flux.just(employees));
 
         StepVerifier.create(sut.getEmployeesByField(req))
                 .assertNext(er1 -> {
@@ -164,7 +165,7 @@ public class EmployeeControllerTests {
                 .expectComplete()
                 .verify();
 
-        verify(employeeService, times(1)).getEmployeesByField(req.getField(), req.getValues());
+        verify(employeeService, times(1)).getEmployeesByField(req);
 
     }
 

@@ -13,5 +13,6 @@ public interface EmployeeRepository extends ReactiveMongoRepository<Employee, St
 
     Flux<Employee> findEmployeesByDepartment(Department dept);
     Flux<Employee> findEmployeesByTitle(Title title);
+    Mono<Employee> findEmployeeByEmail(String email);
 
 }

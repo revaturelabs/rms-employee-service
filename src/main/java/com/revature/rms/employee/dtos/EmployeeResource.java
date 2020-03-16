@@ -1,5 +1,6 @@
 package com.revature.rms.employee.dtos;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.revature.rms.employee.entities.Employee;
 import com.revature.rms.employee.entities.ResourceMetadata;
 
@@ -13,6 +14,7 @@ public class EmployeeResource {
     private String firstName;
     private String lastName;
     private String email;
+    private EmployeeResource manager;
     private String title;
     private String department;
     private ResourceMetadata metadata;
@@ -21,7 +23,12 @@ public class EmployeeResource {
         super();
     }
 
+    public EmployeeResource(String id) {
+        this.id = id;
+    }
+
     public EmployeeResource(Employee employee) {
+
         this.id = employee.getId();
         this.firstName = employee.getFirstName();
         this.lastName = employee.getLastName();
@@ -29,6 +36,13 @@ public class EmployeeResource {
         this.title = employee.getTitle().toString();
         this.department = employee.getDepartment().toString();
         this.metadata = employee.getMetadata();
+
+        if (employee.getManager() != null) {
+            this.manager = new EmployeeResource(employee.getManager());
+        } else {
+            this.manager = null;
+        }
+
     }
 
     public String getId() {
@@ -63,6 +77,14 @@ public class EmployeeResource {
         this.email = email;
     }
 
+    public EmployeeResource getManager() {
+        return manager;
+    }
+
+    public void setManager(EmployeeResource manager) {
+        this.manager = manager;
+    }
+
     public String getTitle() {
         return title;
     }
@@ -87,6 +109,11 @@ public class EmployeeResource {
         this.metadata = metadata;
     }
 
+    @JsonIgnore
+    public Employee getEmployeeEntity() {
+        return new Employee(this);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -96,6 +123,7 @@ public class EmployeeResource {
                 Objects.equals(firstName, that.firstName) &&
                 Objects.equals(lastName, that.lastName) &&
                 Objects.equals(email, that.email) &&
+                Objects.equals(manager, that.manager) &&
                 Objects.equals(title, that.title) &&
                 Objects.equals(department, that.department) &&
                 Objects.equals(metadata, that.metadata);
@@ -103,7 +131,7 @@ public class EmployeeResource {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, email, title, department, metadata);
+        return Objects.hash(id, firstName, lastName, email, manager, title, department, metadata);
     }
 
     @Override
@@ -113,6 +141,7 @@ public class EmployeeResource {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
+                ", manager=" + manager +
                 ", title='" + title + '\'' +
                 ", department='" + department + '\'' +
                 ", metadata=" + metadata +
