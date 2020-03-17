@@ -4,6 +4,7 @@ import com.revature.rms.employee.dtos.EmployeeResource;
 import com.revature.rms.employee.dtos.ErrorResponse;
 import com.revature.rms.employee.dtos.GetEmployeeByFieldRequest;
 import com.revature.rms.employee.dtos.NewEmployeeRequest;
+import com.revature.rms.employee.entities.Employee;
 import com.revature.rms.employee.exceptions.InvalidRequestException;
 import com.revature.rms.employee.exceptions.ResourceNotFoundException;
 import com.revature.rms.employee.services.EmployeeServiceImpl;
@@ -49,7 +50,7 @@ public class EmployeeController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public Mono<Void> deactivateEmployeeById(@PathVariable String id) {
+    public Mono<Employee> deactivateEmployeeById(@PathVariable String id) {
         return this.employeeService.deactivateEmployeeById(id);
     }
 

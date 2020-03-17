@@ -1,7 +1,8 @@
 package com.revature.rms.employee.repos;
 
+import com.revature.rms.employee.entities.Employee;
 import reactor.core.publisher.Mono;
 
 public interface CustomEmployeeRepository {
-    Mono<Void> deactivateUserById(String id);
+    Mono<Employee> deactivateUserById(String id);
 }

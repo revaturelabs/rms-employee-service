@@ -25,6 +25,15 @@ public class ResourceMetadata {
         this.isActive = true;
     }
 
+    public ResourceMetadata(Integer creatorId, LocalDateTime creationDT, Integer modifierId, LocalDateTime modifiedDT, Integer ownerId, boolean active) {
+        this.resourceCreatorId = creatorId;
+        this.resourceCreationDateTime = creationDT.toString();
+        this.lastModifierId = modifierId;
+        this.lastModifiedDateTime = modifiedDT.toString();
+        this.resourceOwnerId = ownerId;
+        this.isActive = active;
+    }
+
     public Integer getResourceCreatorId() {
         return resourceCreatorId;
     }

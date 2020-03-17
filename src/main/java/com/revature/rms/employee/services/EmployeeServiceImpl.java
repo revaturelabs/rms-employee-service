@@ -97,11 +97,14 @@ public class EmployeeServiceImpl implements EmployeeService {
         return null;
     }
 
-    public Mono<Void> deactivateEmployeeById(String id) {;
+    public Mono<Employee> deactivateEmployeeById(String id) {;
         if (id == null || id.trim().isEmpty()) return Mono.error(InvalidRequestException::new);
-        return employeeRepo.findById(id)
-                           .switchIfEmpty(Mono.error(ResourceNotFoundException::new))
-                           .flatMap(e -> employeeRepo.deactivateUserById(id));
+
+//        employeeRepo.findById(id)
+//                    .switchIfEmpty(Mono.error(ResourceNotFoundException::new))
+//                .block();
+
+        return employeeRepo.deactivateUserById(id);
     }
 
     private Flux<EmployeeResource> getEmployeesByIds(String... ids) {
