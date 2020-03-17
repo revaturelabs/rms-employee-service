@@ -3,7 +3,7 @@ package com.revature.rms.employee.exceptions;
 public class InvalidRequestException extends RuntimeException {
 
     public InvalidRequestException() {
-        super();
+        super("An invalid request was made.");
     }
 
     public InvalidRequestException(String s) {

@@ -1,5 +1,6 @@
-package com.revature.rms.employee;
+package com.revature.rms.employee.services;
 
+import com.revature.rms.employee.repos.EmployeeRepository;
 import com.revature.rms.employee.dtos.EmployeeResource;
 import com.revature.rms.employee.dtos.GetEmployeeByFieldRequest;
 import com.revature.rms.employee.dtos.NewEmployeeRequest;
@@ -41,7 +42,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         if (request == null || request.getField() == null || request.getValues() == null
             || request.getField().isEmpty() || request.getValues().length == 0)
         {
-            throw new InvalidRequestException("Invalid request object provided.");
+            return Flux.error(new InvalidRequestException("Invalid request object provided."));
         }
 
 
@@ -67,7 +68,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         }
 
-        return result.switchIfEmpty(Mono.error(new ResourceNotFoundException("No resources found with provided field data.")));
+        return result.switchIfEmpty(Mono.error(ResourceNotFoundException::new));
 
     }
 
@@ -96,9 +97,11 @@ public class EmployeeServiceImpl implements EmployeeService {
         return null;
     }
 
-    // TODO implement EmployeeServiceImpl.deactivateEmployeeById
-    public Mono<Void> deactivateEmployeeById(String id) {
-        return null;
+    public Mono<Void> deactivateEmployeeById(String id) {;
+        if (id == null || id.trim().isEmpty()) return Mono.error(InvalidRequestException::new);
+        return employeeRepo.findById(id)
+                           .switchIfEmpty(Mono.error(ResourceNotFoundException::new))
+                           .flatMap(e -> employeeRepo.deactivateUserById(id));
     }
 
     private Flux<EmployeeResource> getEmployeesByIds(String... ids) {
@@ -113,7 +116,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         try {
             dept = Department.findByName(deptString);
         } catch (EnumMappingException e) {
-            throw new InvalidRequestException(e);
+            return Flux.error(new InvalidRequestException(e));
         }
 
         return this.employeeRepo.findEmployeesByDepartment(dept).map(EmployeeResource::new);
@@ -126,7 +129,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         try {
             title = Title.findByName(titleString);
         } catch (EnumMappingException e) {
-            throw new InvalidRequestException(e);
+            return Flux.error(new InvalidRequestException(e));
         }
 
         return this.employeeRepo.findEmployeesByTitle(title).map(EmployeeResource::new);

@@ -14,25 +14,26 @@ public class NewEmployeeRequest {
     @NotEmpty
     private String email;
 
-    private String managerId;
-
     @NotEmpty
     private String title;
 
     @NotEmpty
     private String department;
 
+    @NotEmpty
+    private String managerId;
+
     public NewEmployeeRequest() {
         super();
     }
 
-    public NewEmployeeRequest(String fn, String ln, String email, String mngrId, String title, String dept) {
+    public NewEmployeeRequest(String fn, String ln, String email, String title, String dept, String mngrId) {
         this.firstName = fn;
         this.lastName = ln;
         this.email = email;
-        this.managerId = mngrId;
         this.title = title;
         this.department = dept;
+        this.managerId = mngrId;
     }
 
     public String getFirstName() {
@@ -59,14 +60,6 @@ public class NewEmployeeRequest {
         this.email = email;
     }
 
-    public String getManagerId() {
-        return managerId;
-    }
-
-    public void setManagerId(String managerId) {
-        this.managerId = managerId;
-    }
-
     public String getTitle() {
         return title;
     }
@@ -83,6 +76,14 @@ public class NewEmployeeRequest {
         this.department = department;
     }
 
+    public String getManagerId() {
+        return managerId;
+    }
+
+    public void setManagerId(String managerId) {
+        this.managerId = managerId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -91,14 +92,14 @@ public class NewEmployeeRequest {
         return Objects.equals(firstName, that.firstName) &&
                 Objects.equals(lastName, that.lastName) &&
                 Objects.equals(email, that.email) &&
-                Objects.equals(managerId, that.managerId) &&
                 Objects.equals(title, that.title) &&
-                Objects.equals(department, that.department);
+                Objects.equals(department, that.department) &&
+                Objects.equals(managerId, that.managerId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(firstName, lastName, email, managerId, title, department);
+        return Objects.hash(firstName, lastName, email, title, department, managerId);
     }
 
     @Override
@@ -107,9 +108,9 @@ public class NewEmployeeRequest {
                 "firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
-                ", managerId='" + managerId + '\'' +
                 ", title='" + title + '\'' +
                 ", department='" + department + '\'' +
+                ", managerId='" + managerId + '\'' +
                 '}';
     }
 

@@ -6,6 +6,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Objects;
 
+/**
+ * Data model representation of an Employee entity.
+ */
 @Document
 public class Employee {
 
@@ -14,9 +17,9 @@ public class Employee {
     private String firstName;
     private String lastName;
     private String email;
-    private String managerId;
     private Title title;
     private Department department;
+    private String managerId;
     private ResourceMetadata metadata;
 
     public Employee() {
@@ -127,18 +130,18 @@ public class Employee {
         if (o == null || getClass() != o.getClass()) return false;
         Employee employee = (Employee) o;
         return Objects.equals(id, employee.id) &&
-                Objects.equals(firstName, employee.firstName) &&
-                Objects.equals(lastName, employee.lastName) &&
-                Objects.equals(email, employee.email) &&
+                firstName.equals(employee.firstName) &&
+                lastName.equals(employee.lastName) &&
+                email.equals(employee.email) &&
+                managerId.equals(employee.managerId) &&
                 title == employee.title &&
-                Objects.equals(managerId, employee.managerId) &&
                 department == employee.department &&
-                Objects.equals(metadata, employee.metadata);
+                metadata.equals(employee.metadata);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, email, title, managerId, department, metadata);
+        return Objects.hash(id, firstName, lastName, email, managerId, title, department, metadata);
     }
 
     @Override
@@ -148,8 +151,8 @@ public class Employee {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
+                ", managerId='" + managerId + '\'' +
                 ", title=" + title +
-                ", manager='" + managerId + '\'' +
                 ", department=" + department +
                 ", metadata=" + metadata +
                 '}';

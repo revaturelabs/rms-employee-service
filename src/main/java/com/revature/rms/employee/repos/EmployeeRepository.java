@@ -1,4 +1,4 @@
-package com.revature.rms.employee;
+package com.revature.rms.employee.repos;
 
 import com.revature.rms.employee.entities.Department;
 import com.revature.rms.employee.entities.Employee;
@@ -9,7 +9,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Repository
-public interface EmployeeRepository extends ReactiveMongoRepository<Employee, String> {
+public interface EmployeeRepository extends ReactiveMongoRepository<Employee, String>, CustomEmployeeRepository {
 
     Flux<Employee> findEmployeesByDepartment(Department dept);
     Flux<Employee> findEmployeesByTitle(Title title);

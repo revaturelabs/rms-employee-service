@@ -1,4 +1,4 @@
-package com.revature.rms.employee;
+package com.revature.rms.employee.controllers;
 
 import com.revature.rms.employee.dtos.EmployeeResource;
 import com.revature.rms.employee.dtos.ErrorResponse;
@@ -6,6 +6,7 @@ import com.revature.rms.employee.dtos.GetEmployeeByFieldRequest;
 import com.revature.rms.employee.dtos.NewEmployeeRequest;
 import com.revature.rms.employee.exceptions.InvalidRequestException;
 import com.revature.rms.employee.exceptions.ResourceNotFoundException;
+import com.revature.rms.employee.services.EmployeeServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

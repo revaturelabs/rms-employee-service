@@ -17,15 +17,6 @@ public class ResourceMetadata {
     }
 
     public ResourceMetadata(Integer creatorId, LocalDateTime creationDT, Integer modifierId, LocalDateTime modifiedDT, Integer ownerId) {
-
-        if (creatorId == null || creationDT == null || modifierId == null || modifiedDT == null || ownerId == null) {
-            throw new IllegalArgumentException("Null arguments are not permitted", new NullPointerException());
-        }
-
-        if (creatorId <= 0 || modifierId <= 0 || ownerId <= 0) {
-            throw new IllegalArgumentException("Invalid integer parameter provided");
-        }
-
         this.resourceCreatorId = creatorId;
         this.resourceCreationDateTime = creationDT.toString();
         this.lastModifierId = modifierId;
@@ -57,7 +48,6 @@ public class ResourceMetadata {
     }
 
     public void setLastModifierId(Integer lastModifierId) {
-        if (lastModifierId == null || lastModifierId <= 0) return;
         this.lastModifierId = lastModifierId;
     }
 
@@ -66,7 +56,6 @@ public class ResourceMetadata {
     }
 
     public void setLastModifiedDateTime(LocalDateTime lastModifiedDateTime) {
-        if (lastModifiedDateTime == null) return;
         this.lastModifiedDateTime = lastModifiedDateTime.toString();
     }
 
@@ -75,7 +64,6 @@ public class ResourceMetadata {
     }
 
     public void setResourceOwnerId(Integer resourceOwnerId) {
-        if (resourceOwnerId == null || resourceOwnerId <= 0) return;
         this.resourceOwnerId = resourceOwnerId;
     }
 

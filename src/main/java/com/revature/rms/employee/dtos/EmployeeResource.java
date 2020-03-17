@@ -4,27 +4,36 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.revature.rms.employee.entities.Employee;
 import com.revature.rms.employee.entities.ResourceMetadata;
 
+import javax.validation.constraints.NotEmpty;
 import java.util.Objects;
-
-// TODO add JSR-303 annotations
 
 public class EmployeeResource {
 
+    @NotEmpty
     private String id;
+
+    @NotEmpty
     private String firstName;
+
+    @NotEmpty
     private String lastName;
+
+    @NotEmpty
     private String email;
-    private String managerId;
+
+    @NotEmpty
     private String title;
+
+    @NotEmpty
     private String department;
+
+    @NotEmpty
+    private String managerId;
+
     private ResourceMetadata metadata;
 
     public EmployeeResource() {
         super();
-    }
-
-    public EmployeeResource(String id) {
-        this.id = id;
     }
 
     public EmployeeResource(Employee employee) {
@@ -36,10 +45,7 @@ public class EmployeeResource {
         this.title = employee.getTitle().toString();
         this.department = employee.getDepartment().toString();
         this.metadata = employee.getMetadata();
-
-        if (employee.getManagerId() != null && !employee.getManagerId().isEmpty()) {
-            this.managerId = employee.getManagerId();
-        }
+        this.managerId = employee.getManagerId();
 
     }
 
@@ -75,14 +81,6 @@ public class EmployeeResource {
         this.email = email;
     }
 
-    public String getManagerId() {
-        return managerId;
-    }
-
-    public void setManagerId(String managerId) {
-        this.managerId = managerId;
-    }
-
     public String getTitle() {
         return title;
     }
@@ -97,6 +95,14 @@ public class EmployeeResource {
 
     public void setDepartment(String department) {
         this.department = department;
+    }
+
+    public String getManagerId() {
+        return managerId;
+    }
+
+    public void setManagerId(String managerId) {
+        this.managerId = managerId;
     }
 
     public ResourceMetadata getMetadata() {
@@ -121,15 +127,15 @@ public class EmployeeResource {
                 Objects.equals(firstName, that.firstName) &&
                 Objects.equals(lastName, that.lastName) &&
                 Objects.equals(email, that.email) &&
-                Objects.equals(managerId, that.managerId) &&
                 Objects.equals(title, that.title) &&
                 Objects.equals(department, that.department) &&
-                Objects.equals(metadata, that.metadata);
+                Objects.equals(metadata, that.metadata) &&
+                Objects.equals(managerId, that.managerId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, email, managerId, title, department, metadata);
+        return Objects.hash(id, firstName, lastName, email, title, department, metadata, managerId);
     }
 
     @Override
@@ -139,10 +145,10 @@ public class EmployeeResource {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
-                ", manager=" + managerId +
                 ", title='" + title + '\'' +
                 ", department='" + department + '\'' +
-                ", metadata=" + metadata +
+                ", metadata=" + metadata + '\'' +
+                ", managerId=" + managerId +
                 '}';
     }
 
