@@ -45,7 +45,7 @@ public class EmployeeControllerTests {
                 "test-email-1", null, Title.TRAINER, Department.TRAINING, new ResourceMetadata()));
 
         EmployeeResource employee2 = new EmployeeResource(new Employee("abc2", "test-fn-2", "test-ln-2",
-                "test-email-2",employee1.getEmployeeEntity(), Title.SENIOR_TRAINER, Department.TRAINING,
+                "test-email-2",employee1.getId(), Title.SENIOR_TRAINER, Department.TRAINING,
                 new ResourceMetadata()));
 
         employees = new EmployeeResource[] {
@@ -130,11 +130,11 @@ public class EmployeeControllerTests {
                 "test-email-1", null, Title.MANAGER_OF_TECH, Department.TRAINING, new ResourceMetadata()));
 
         EmployeeResource employee2 = new EmployeeResource(new Employee("abc2", "test-fn-2", "test-ln-2",
-                "test-email-2", employee1.getEmployeeEntity(), Title.TRAINER, Department.TRAINING,
+                "test-email-2", employee1.getId(), Title.TRAINER, Department.TRAINING,
                 new ResourceMetadata()));
 
         EmployeeResource employee3 = new EmployeeResource(new Employee("abc3", "test-fn-3", "test-ln-3",
-                "test-email-3", employee1.getEmployeeEntity(), Title.TRAINER, Department.TRAINING,
+                "test-email-3", employee1.getId(), Title.TRAINER, Department.TRAINING,
                 new ResourceMetadata()));
 
         employees = new EmployeeResource[] {

@@ -14,7 +14,7 @@ public class EmployeeResource {
     private String firstName;
     private String lastName;
     private String email;
-    private EmployeeResource manager;
+    private String managerId;
     private String title;
     private String department;
     private ResourceMetadata metadata;
@@ -37,10 +37,8 @@ public class EmployeeResource {
         this.department = employee.getDepartment().toString();
         this.metadata = employee.getMetadata();
 
-        if (employee.getManager() != null) {
-            this.manager = new EmployeeResource(employee.getManager());
-        } else {
-            this.manager = null;
+        if (employee.getManagerId() != null && !employee.getManagerId().isEmpty()) {
+            this.managerId = employee.getManagerId();
         }
 
     }
@@ -77,12 +75,12 @@ public class EmployeeResource {
         this.email = email;
     }
 
-    public EmployeeResource getManager() {
-        return manager;
+    public String getManagerId() {
+        return managerId;
     }
 
-    public void setManager(EmployeeResource manager) {
-        this.manager = manager;
+    public void setManagerId(String managerId) {
+        this.managerId = managerId;
     }
 
     public String getTitle() {
@@ -123,7 +121,7 @@ public class EmployeeResource {
                 Objects.equals(firstName, that.firstName) &&
                 Objects.equals(lastName, that.lastName) &&
                 Objects.equals(email, that.email) &&
-                Objects.equals(manager, that.manager) &&
+                Objects.equals(managerId, that.managerId) &&
                 Objects.equals(title, that.title) &&
                 Objects.equals(department, that.department) &&
                 Objects.equals(metadata, that.metadata);
@@ -131,7 +129,7 @@ public class EmployeeResource {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, email, manager, title, department, metadata);
+        return Objects.hash(id, firstName, lastName, email, managerId, title, department, metadata);
     }
 
     @Override
@@ -141,7 +139,7 @@ public class EmployeeResource {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
-                ", manager=" + manager +
+                ", manager=" + managerId +
                 ", title='" + title + '\'' +
                 ", department='" + department + '\'' +
                 ", metadata=" + metadata +

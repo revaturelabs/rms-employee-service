@@ -1,9 +1,7 @@
 package com.revature.rms.employee.entities;
 
 import com.revature.rms.employee.dtos.EmployeeResource;
-import com.revature.rms.employee.dtos.NewEmployeeRequest;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Objects;
@@ -15,11 +13,8 @@ public class Employee {
     private String id;
     private String firstName;
     private String lastName;
-
-    @Indexed(unique = true)
     private String email;
-
-    private Employee manager;
+    private String managerId;
     private Title title;
     private Department department;
     private ResourceMetadata metadata;
@@ -33,23 +28,23 @@ public class Employee {
         this.firstName = resource.getFirstName();
         this.lastName = resource.getLastName();
         this.email = resource.getEmail();
-        if (resource.getManager() != null) this.manager = new Employee(resource.getManager());
+        this.managerId = resource.getManagerId();
         this.title = Title.findByName(resource.getTitle());
         this.department = Department.findByName(resource.getDepartment());
         this.metadata = resource.getMetadata();
     }
 
-    public Employee(String fn, String ln, String email, Employee mngr, Title title, Department dept, ResourceMetadata metadata) {
+    public Employee(String fn, String ln, String email, String mngr, Title title, Department dept, ResourceMetadata metadata) {
         this.firstName = fn;
         this.lastName = ln;
         this.email = email;
-        this.manager = mngr;
+        this.managerId = mngr;
         this.title = title;
         this.department = dept;
         this.metadata = metadata;
     }
 
-    public Employee(String id, String fn, String ln, String email, Employee mngr, Title title, Department dept, ResourceMetadata metadata) {
+    public Employee(String id, String fn, String ln, String email, String mngr, Title title, Department dept, ResourceMetadata metadata) {
         this(fn, ln, email, mngr, title, dept, metadata);
         this.id = id;
     }
@@ -90,12 +85,12 @@ public class Employee {
         return this;
     }
 
-    public Employee getManager() {
-        return manager;
+    public String getManagerId() {
+        return managerId;
     }
 
-    public Employee setManager(Employee manager) {
-        this.manager = manager;
+    public Employee setManagerId(String managerId) {
+        this.managerId = managerId;
         return this;
     }
 
@@ -136,14 +131,14 @@ public class Employee {
                 Objects.equals(lastName, employee.lastName) &&
                 Objects.equals(email, employee.email) &&
                 title == employee.title &&
-                Objects.equals(manager, employee.manager) &&
+                Objects.equals(managerId, employee.managerId) &&
                 department == employee.department &&
                 Objects.equals(metadata, employee.metadata);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, email, title, manager, department, metadata);
+        return Objects.hash(id, firstName, lastName, email, title, managerId, department, metadata);
     }
 
     @Override
@@ -154,7 +149,7 @@ public class Employee {
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
                 ", title=" + title +
-                ", manager='" + manager + '\'' +
+                ", manager='" + managerId + '\'' +
                 ", department=" + department +
                 ", metadata=" + metadata +
                 '}';

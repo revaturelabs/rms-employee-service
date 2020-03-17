@@ -80,21 +80,14 @@ public class EmployeeServiceImpl implements EmployeeService {
             .setFirstName(request.getFirstName())
             .setLastName(request.getLastName())
             .setEmail(request.getEmail())
+            .setManagerId(request.getManagerId())
             .setTitle(Title.findByName(request.getTitle()))
             .setDepartment(Department.findByName(request.getDepartment()))
             .setMetadata(metadata);
 
-        if (request.getManagerId() == null || request.getManagerId().equals("")) {
-            return employeeRepo.save(newEmp)
-                               .switchIfEmpty(Mono.error(new ResourcePersistenceException("Could not persist employee.")))
-                               .map(EmployeeResource::new);
-
-        } else {
-            return employeeRepo.findById(request.getManagerId())
-                    .flatMap(mngr -> Mono.just(newEmp).flatMap(emp -> employeeRepo.save(emp.setManager(mngr))))
-                    .switchIfEmpty(Mono.error(new ResourcePersistenceException("Could not persist employee.")))
-                    .map(EmployeeResource::new);
-        }
+        return employeeRepo.save(newEmp)
+                           .switchIfEmpty(Mono.error(new ResourcePersistenceException("Could not persist employee.")))
+                           .map(EmployeeResource::new);
 
     }
 
