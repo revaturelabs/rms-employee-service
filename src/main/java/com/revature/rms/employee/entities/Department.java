@@ -4,8 +4,13 @@ import com.revature.rms.employee.exceptions.EnumMappingException;
 
 public enum Department {
 
-    TRAINING("Training"), DELIVERY("Delivery"), RECRUITMENT("Recruitment"),
-    HR("Human Resources");
+    EXECUTIVE("Executive"),
+    TRAINING("Training"),
+    HR("Human Resources"),
+    RECRUITMENT("Recruitment"),
+    DELIVERY("Delivery"),
+    FINANCE("Finance"),
+    MARKETING("Marketing");
 
     private String departmentName;
 

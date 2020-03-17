@@ -4,10 +4,44 @@ import com.revature.rms.employee.exceptions.EnumMappingException;
 
 public enum Title {
 
-    TRAINER("Trainer"), SENIOR_TRAINER("Senior Trainer"), LEAD_TRAINER("Lead Trainer"),
-    PRINCIPAL_TRAINER("Principal Trainer"), STAGING_MANAGER("Staging Manager"), QUALITY_ANALYST("Quality Analyst"),
-    MANAGER_OF_TECH("Manager of Technology"), HR_SPECIALIST("HR Specialist"), HR_LEAD("HR Manager"),
-    DIRECTOR_EMP_ENGAGEMENT("Director of Employee Engagement"), ASSOCIATE_MENTOR("Associate Mentor"), LOCKED("Locked");
+    // Executive Department
+    CEO("Chief Executive Officer"),
+    CSO("Chief Strategy Officer"),
+
+    // Training Department
+    CTO("Chief Technology Officer"),
+    VP_OF_TECH("Vice President of Technology"),
+    DIRECTOR_OF_TECH("Director of Technology"),
+    MANAGER_OF_TECH("Manager of Technology"),
+    STAGING_MANAGER("Staging Manager"),
+    PRINCIPAL_TRAINER("Principal Trainer"),
+    LEAD_TRAINER("Lead Trainer"),
+    SENIOR_TRAINER("Senior Trainer"),
+    TRAINER("Trainer"),
+    TRAINING_ASSISTANT("Training Assistant"),
+    LEAD_QC_ANALYST("Lead QC Analyst"),
+    QUALITY_ANALYST("Quality Analyst"),
+
+    // HR Department
+    HR_DIRECTOR("HR Director"),
+    SENIOR_HR_MNGR("Senior HR Manager"),
+    HR_MNGR("HR Employee Experience Manager"),
+    HR_SPECIALIST("HR Specialist"),
+
+    // Recruitment Department
+    SENIOR_DIRECTOR_OF_RECRUIT("Senior Director of Recruitment"),
+    ASSOC_DIRECTOR_OF_RECRUIT("Associate Director of Recruitment"),
+    ASSOCIATE_MENTOR("Associate Mentor"),
+    TECHNICAL_RECRUITER("Technical Recruiter"),
+
+    // Delivery Department
+    DIRECTOR_EMP_ENGAGEMENT("Director of Employee Engagement"),
+
+    // Finance Department
+    CFO("Chief Financial Officer"),
+
+    // Other
+    LOCKED("Locked");
 
     private String titleName;
 
