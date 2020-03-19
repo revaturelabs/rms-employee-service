@@ -1,50 +1,64 @@
 package com.revature.rms.employee.entities;
 
-import com.revature.rms.employee.dtos.EmployeeResource;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.revature.rms.core.models.Resource;
+import com.revature.rms.core.models.ResourceMetadata;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 /**
  * Data model representation of an Employee entity.
  */
 @Document
-public class Employee {
+@JsonPropertyOrder({
+        "id",
+        "firstName",
+        "lastName",
+        "email",
+        "title",
+        "department",
+        "managerId",
+        "metadata"
+})
+public class Employee extends Resource {
 
     @Id
     private String id;
+
+    @NotNull @NotEmpty
     private String firstName;
+
+    @NotNull @NotEmpty
     private String lastName;
+
+    @NotNull @NotEmpty
     private String email;
+
+    @NotNull
     private Title title;
+
+    @NotNull
     private Department department;
+
+    @NotNull @NotEmpty
     private String managerId;
-    private ResourceMetadata metadata;
 
     public Employee() {
         super();
     }
 
-    public Employee(EmployeeResource resource) {
-        this.id = resource.getId();
-        this.firstName = resource.getFirstName();
-        this.lastName = resource.getLastName();
-        this.email = resource.getEmail();
-        this.managerId = resource.getManagerId();
-        this.title = Title.findByName(resource.getTitle());
-        this.department = Department.findByName(resource.getDepartment());
-        this.metadata = resource.getMetadata();
-    }
-
     public Employee(String fn, String ln, String email, String mngr, Title title, Department dept, ResourceMetadata metadata) {
+        super(metadata);
         this.firstName = fn;
         this.lastName = ln;
         this.email = email;
         this.managerId = mngr;
         this.title = title;
         this.department = dept;
-        this.metadata = metadata;
     }
 
     public Employee(String id, String fn, String ln, String email, String mngr, Title title, Department dept, ResourceMetadata metadata) {
@@ -115,14 +129,6 @@ public class Employee {
         return this;
     }
 
-    public ResourceMetadata getMetadata() {
-        return metadata;
-    }
-
-    public Employee setMetadata(ResourceMetadata metadata) {
-        this.metadata = metadata;
-        return this;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -135,13 +141,12 @@ public class Employee {
                 email.equals(employee.email) &&
                 managerId.equals(employee.managerId) &&
                 title == employee.title &&
-                department == employee.department &&
-                metadata.equals(employee.metadata);
+                department == employee.department;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, email, managerId, title, department, metadata);
+        return Objects.hash(id, firstName, lastName, email, managerId, title, department);
     }
 
     @Override
@@ -154,7 +159,6 @@ public class Employee {
                 ", managerId='" + managerId + '\'' +
                 ", title=" + title +
                 ", department=" + department +
-                ", metadata=" + metadata +
                 '}';
     }
 

@@ -1,6 +1,8 @@
 package com.revature.rms.employee.entities;
 
-import com.revature.rms.employee.exceptions.EnumMappingException;
+import com.revature.rms.core.exceptions.EnumMappingException;
+
+import java.util.Arrays;
 
 public enum Title {
 
@@ -56,17 +58,10 @@ public enum Title {
 
     public static Title findByName(String name) {
 
-        Title match = null;
-
-        for (Title title : Title.values()) {
-            if (title.titleName.equalsIgnoreCase(name)) {
-                match = title;
-            }
-        }
-
-        if (match == null) throw new EnumMappingException("No title match found!");
-
-        return match;
+        return Arrays.stream(Title.values())
+                .filter(t -> t.titleName.equals(name))
+                .findFirst()
+                .orElseThrow(EnumMappingException::new);
 
     }
 }

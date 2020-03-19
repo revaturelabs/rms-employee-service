@@ -1,18 +1,22 @@
 package com.revature.rms.employee.services;
 
-import com.revature.rms.employee.dtos.EmployeeResource;
-import com.revature.rms.employee.dtos.GetEmployeeByFieldRequest;
-import com.revature.rms.employee.dtos.NewEmployeeRequest;
+import com.revature.rms.core.services.AutoService;
+import com.revature.rms.employee.repos.EmployeeRepository;
 import com.revature.rms.employee.entities.Employee;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
+import org.springframework.stereotype.Service;
 
-public interface EmployeeService {
+// TODO document class and methods
 
-    Flux<EmployeeResource> getAllEmployees();
-    Flux<EmployeeResource> getEmployeesByField(GetEmployeeByFieldRequest request);
-    Mono<EmployeeResource> saveNewEmployee(NewEmployeeRequest request);
-    Mono<Void> updateEmployee(EmployeeResource updatedEmp);
-    Mono<Employee> deactivateEmployeeById(String id);
+@Service
+public class EmployeeService extends AutoService<Employee> {
+
+    private ReactiveMongoTemplate mongoTemplate;
+
+    @Autowired
+    public EmployeeService(EmployeeRepository repo, ReactiveMongoTemplate template) {
+        super(repo, template);
+    }
 
 }

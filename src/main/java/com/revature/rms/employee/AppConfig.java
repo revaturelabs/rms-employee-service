@@ -1,8 +1,8 @@
 package com.revature.rms.employee;
 
+import com.revature.rms.core.models.ResourceMetadata;
 import com.revature.rms.employee.entities.Department;
 import com.revature.rms.employee.entities.Employee;
-import com.revature.rms.employee.entities.ResourceMetadata;
 import com.revature.rms.employee.entities.Title;
 import com.revature.rms.employee.repos.EmployeeRepository;
 import org.slf4j.Logger;
@@ -12,8 +12,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
-
-import java.time.LocalDateTime;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
 
 @EnableEurekaClient
 @SpringBootApplication
@@ -37,8 +37,7 @@ public class AppConfig implements CommandLineRunner {
 
 		System.out.println("INIT DATA SOURCE");
 
-		LocalDateTime now = LocalDateTime.now();
-		ResourceMetadata metadata = new ResourceMetadata(1, now, 1, now, 1);
+		ResourceMetadata metadata = new ResourceMetadata("5e70e8e8d798ce32e0ce9b64", "5e70e8e8d798ce32e0ce9b64");
 
 		Employee ceo = new Employee("Ashwin", "Bharath", "ashwin.bharath@revature.com", null, Title.CEO, Department.EXECUTIVE, metadata);
 		employeeRepo.save(ceo).block();
