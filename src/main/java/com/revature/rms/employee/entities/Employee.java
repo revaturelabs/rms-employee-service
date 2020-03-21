@@ -123,24 +123,22 @@ public class Employee extends Resource {
         return this;
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Employee employee = (Employee) o;
-        return Objects.equals(id, employee.id) &&
-                firstName.equals(employee.firstName) &&
+        return firstName.equals(employee.firstName) &&
                 lastName.equals(employee.lastName) &&
                 email.equals(employee.email) &&
-                managerId.equals(employee.managerId) &&
                 title == employee.title &&
-                department == employee.department;
+                department == employee.department &&
+                managerId.equals(employee.managerId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, email, managerId, title, department);
+        return Objects.hash(firstName, lastName, email, title, department, managerId);
     }
 
     @Override
@@ -150,10 +148,10 @@ public class Employee extends Resource {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
-                ", managerId='" + managerId + '\'' +
                 ", title=" + title +
                 ", department=" + department +
+                ", managerId='" + managerId + '\'' +
+                ", metadata=" + metadata +
                 '}';
     }
-
 }
