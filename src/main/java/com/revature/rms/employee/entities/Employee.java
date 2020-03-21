@@ -2,6 +2,7 @@ package com.revature.rms.employee.entities;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.revature.rms.core.models.Resource;
+import com.revature.rms.core.models.ResourceMetadata;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotEmpty;
@@ -48,6 +49,18 @@ public class Employee extends Resource {
 
     public Employee(@NotNull @NotEmpty String firstName, @NotNull @NotEmpty String lastName, @NotNull @NotEmpty String email,
                     @NotNull Title title, @NotNull Department department, @NotNull @NotEmpty String managerId) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.title = title;
+        this.department = department;
+        this.managerId = managerId;
+    }
+
+    public Employee(String id, @NotNull @NotEmpty String firstName, @NotNull @NotEmpty String lastName,
+                    @NotNull @NotEmpty String email, @NotNull Title title, @NotNull Department department,
+                    @NotNull @NotEmpty String managerId, ResourceMetadata metadata) {
+        super(id, metadata);
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
