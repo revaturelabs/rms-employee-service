@@ -26,9 +26,6 @@ import java.util.Objects;
 })
 public class Employee extends Resource {
 
-    @Id
-    private String id;
-
     @NotNull @NotEmpty
     private String firstName;
 
@@ -40,6 +37,8 @@ public class Employee extends Resource {
 
     @NotNull
     private Title title;
+
+
 
     @NotNull
     private Department department;
@@ -64,15 +63,6 @@ public class Employee extends Resource {
     public Employee(String id, String fn, String ln, String email, String mngr, Title title, Department dept, ResourceMetadata metadata) {
         this(fn, ln, email, mngr, title, dept, metadata);
         this.id = id;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public Employee setId(String id) {
-        this.id = id;
-        return this;
     }
 
     public String getFirstName() {
