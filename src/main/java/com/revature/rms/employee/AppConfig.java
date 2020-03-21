@@ -57,7 +57,7 @@ public class AppConfig implements CommandLineRunner {
 		Employee srTrainer1 = new Employee("Wezley", "Singleton", "wezley.singleton@revature.com", mngrTech.getId(), Title.SENIOR_TRAINER, Department.TRAINING, metadata);
 		employeeRepo.save(srTrainer1).block();
 
-		Employee trainer1 = new Employee("5e70e8e8d798ce32e0ce9b57", "Robert", "Connell", "robert.connell@revature.com", mngrTech.getId(), Title.TRAINER, Department.TRAINING, metadata);
+		Employee trainer1 = new Employee("Robert", "Connell", "robert.connell@revature.com", mngrTech.getId(), Title.TRAINER, Department.TRAINING, metadata);
 		employeeRepo.save(trainer1).block();
 
 		System.out.println("DATA SOURCE INIT COMPLETE");
