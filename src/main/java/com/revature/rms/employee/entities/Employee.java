@@ -1,64 +1,72 @@
 package com.revature.rms.employee.entities;
 
-import com.revature.rms.employee.dtos.EmployeeResource;
-import com.revature.rms.employee.dtos.NewEmployeeRequest;
-import org.springframework.data.annotation.Id;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.revature.rms.core.models.Resource;
+import com.revature.rms.core.models.ResourceMetadata;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
+/**
+ * Data model representation of an Employee entity.
+ */
 @Document
-public class Employee {
+@JsonPropertyOrder({
+        "id",
+        "firstName",
+        "lastName",
+        "email",
+        "title",
+        "department",
+        "managerId",
+        "metadata"
+})
+public class Employee extends Resource {
 
-    @Id
-    private String id;
+    @NotNull @NotEmpty
     private String firstName;
+
+    @NotNull @NotEmpty
     private String lastName;
+
+    @NotNull @NotEmpty
     private String email;
+
+    @NotNull
     private Title title;
+
+    @NotNull
     private Department department;
-    private ResourceMetadata metadata;
+
+    @NotNull @NotEmpty
+    private String managerId;
 
     public Employee() {
         super();
     }
 
-    public Employee(EmployeeResource empResource) {
-        this.firstName = empResource.getFirstName();
-        this.lastName = empResource.getLastName();
-        this.email = empResource.getEmail();
-        this.title = Title.findByName(empResource.getTitle());
-        this.department = Department.findByName(empResource.getDepartment());
-        this.metadata = empResource.getMetadata();
-    }
-
-    public Employee(NewEmployeeRequest newEmployee) {
-        this.firstName = newEmployee.getFirstName();
-        this.lastName = newEmployee.getLastName();
-        this.email = newEmployee.getEmail();
-        this.title = Title.findByName(newEmployee.getTitle());
-        this.department = Department.findByName(newEmployee.getDepartment());
-    }
-
-    public Employee(String fn, String ln, String email, Title title, Department dept, ResourceMetadata metadata) {
-        this.firstName = fn;
-        this.lastName = ln;
+    public Employee(@NotNull @NotEmpty String firstName, @NotNull @NotEmpty String lastName, @NotNull @NotEmpty String email,
+                    @NotNull Title title, @NotNull Department department, String managerId) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.email = email;
         this.title = title;
-        this.department = dept;
+        this.department = department;
+        this.managerId = managerId;
+    }
+
+    public Employee(@NotNull @NotEmpty String firstName, @NotNull @NotEmpty String lastName, @NotNull @NotEmpty String email,
+                    @NotNull Title title, @NotNull Department department, String managerId, ResourceMetadata metadata) {
+        this(firstName, lastName, email, title, department, managerId);
         this.metadata = metadata;
     }
 
-    public Employee(String id, String fn, String ln, String email, Title title, Department dept, ResourceMetadata metadata) {
-        this(fn, ln, email, title, dept, metadata);
-        this.id = id;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
+    public Employee(String id, @NotNull @NotEmpty String firstName, @NotNull @NotEmpty String lastName,
+                    @NotNull @NotEmpty String email, @NotNull Title title, @NotNull Department department,
+                    String managerId, ResourceMetadata metadata) {
+        this(firstName, lastName, email, title, department, managerId, metadata);
         this.id = id;
     }
 
@@ -66,48 +74,54 @@ public class Employee {
         return firstName;
     }
 
-    public void setFirstName(String firstName) {
+    public Employee setFirstName(String firstName) {
         this.firstName = firstName;
+        return this;
     }
 
     public String getLastName() {
         return lastName;
     }
 
-    public void setLastName(String lastName) {
+    public Employee setLastName(String lastName) {
         this.lastName = lastName;
+        return this;
     }
 
     public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
+    public Employee setEmail(String email) {
         this.email = email;
+        return this;
+    }
+
+    public String getManagerId() {
+        return managerId;
+    }
+
+    public Employee setManagerId(String managerId) {
+        this.managerId = managerId;
+        return this;
     }
 
     public Title getTitle() {
         return title;
     }
 
-    public void setTitle(Title title) {
+    public Employee setTitle(Title title) {
         this.title = title;
+        return this;
     }
 
     public Department getDepartment() {
         return department;
     }
 
-    public void setDepartment(Department department) {
+    public Employee setDepartment(Department department) {
         this.department = department;
-    }
-
-    public ResourceMetadata getMetadata() {
-        return metadata;
-    }
-
-    public void setMetadata(ResourceMetadata metadata) {
-        this.metadata = metadata;
+        return this;
     }
 
     @Override
@@ -115,31 +129,30 @@ public class Employee {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Employee employee = (Employee) o;
-        return Objects.equals(id, employee.id) &&
-                Objects.equals(firstName, employee.firstName) &&
-                Objects.equals(lastName, employee.lastName) &&
-                Objects.equals(email, employee.email) &&
+        return firstName.equals(employee.firstName) &&
+                lastName.equals(employee.lastName) &&
+                email.equals(employee.email) &&
                 title == employee.title &&
                 department == employee.department &&
-                Objects.equals(metadata, employee.metadata);
+                managerId.equals(employee.managerId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, email, title, department, metadata);
+        return Objects.hash(firstName, lastName, email, title, department, managerId);
     }
 
     @Override
     public String toString() {
         return "Employee{" +
-                "id=" + id +
+                "id='" + id + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
                 ", title=" + title +
                 ", department=" + department +
+                ", managerId='" + managerId + '\'' +
                 ", metadata=" + metadata +
                 '}';
     }
-
 }

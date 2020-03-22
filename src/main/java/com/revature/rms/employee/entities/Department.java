@@ -1,11 +1,18 @@
 package com.revature.rms.employee.entities;
 
-import com.revature.rms.employee.exceptions.EnumMappingException;
+import com.revature.rms.core.exceptions.EnumMappingException;
+
+import java.util.Arrays;
 
 public enum Department {
 
-    TRAINING("Training"), DELIVERY("Delivery"), RECRUITMENT("Recruitment"),
-    HR("Human Resources");
+    EXECUTIVE("Executive"),
+    TRAINING("Training"),
+    HR("Human Resources"),
+    RECRUITMENT("Recruitment"),
+    DELIVERY("Delivery"),
+    FINANCE("Finance"),
+    MARKETING("Marketing");
 
     private String departmentName;
 
@@ -20,17 +27,10 @@ public enum Department {
 
     public static Department findByName(String name) {
 
-        Department match = null;
-
-        for (Department dept : Department.values()) {
-            if (dept.departmentName.equalsIgnoreCase(name)) {
-                match = dept;
-            }
-        }
-
-        if (match == null) throw new EnumMappingException("No department match found!");
-
-        return match;
+        return Arrays.stream(Department.values())
+              .filter(dept -> dept.departmentName.equals(name))
+              .findFirst()
+              .orElseThrow(EnumMappingException::new);
 
     }
 
