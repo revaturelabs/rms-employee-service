@@ -48,7 +48,7 @@ public class Employee extends Resource {
     }
 
     public Employee(@NotNull @NotEmpty String firstName, @NotNull @NotEmpty String lastName, @NotNull @NotEmpty String email,
-                    @NotNull Title title, @NotNull Department department, @NotNull @NotEmpty String managerId) {
+                    @NotNull Title title, @NotNull Department department, String managerId) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -57,16 +57,17 @@ public class Employee extends Resource {
         this.managerId = managerId;
     }
 
+    public Employee(@NotNull @NotEmpty String firstName, @NotNull @NotEmpty String lastName, @NotNull @NotEmpty String email,
+                    @NotNull Title title, @NotNull Department department, String managerId, ResourceMetadata metadata) {
+        this(firstName, lastName, email, title, department, managerId);
+        this.metadata = metadata;
+    }
+
     public Employee(String id, @NotNull @NotEmpty String firstName, @NotNull @NotEmpty String lastName,
                     @NotNull @NotEmpty String email, @NotNull Title title, @NotNull Department department,
-                    @NotNull @NotEmpty String managerId, ResourceMetadata metadata) {
-        super(id, metadata);
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.title = title;
-        this.department = department;
-        this.managerId = managerId;
+                    String managerId, ResourceMetadata metadata) {
+        this(firstName, lastName, email, title, department, managerId, metadata);
+        this.id = id;
     }
 
     public String getFirstName() {
