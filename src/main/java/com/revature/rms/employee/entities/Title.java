@@ -31,6 +31,7 @@ public enum Title {
     HR_SPECIALIST("HR Specialist"),
 
     // Recruitment Department
+    VP_OF_RECRUITMENT("Vice President of Recruitment"),
     SENIOR_DIRECTOR_OF_RECRUIT("Senior Director of Recruitment"),
     ASSOC_DIRECTOR_OF_RECRUIT("Associate Director of Recruitment"),
     ASSOCIATE_MENTOR("Associate Mentor"),
