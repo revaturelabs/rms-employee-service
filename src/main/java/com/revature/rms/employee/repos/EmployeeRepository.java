@@ -1,6 +1,6 @@
 package com.revature.rms.employee.repos;
 
-import com.revature.rms.employee.entities.Employee;
+import com.revature.rms.employee.documents.Employee;
 import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 import org.springframework.stereotype.Repository;
 

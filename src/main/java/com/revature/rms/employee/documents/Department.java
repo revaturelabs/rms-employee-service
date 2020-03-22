@@ -1,4 +1,4 @@
-package com.revature.rms.employee.entities;
+package com.revature.rms.employee.documents;
 
 import com.revature.rms.core.exceptions.EnumMappingException;
 

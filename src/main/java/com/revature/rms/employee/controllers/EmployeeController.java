@@ -1,7 +1,7 @@
 package com.revature.rms.employee.controllers;
 
 import com.revature.rms.core.controllers.ResourceController;
-import com.revature.rms.employee.entities.Employee;
+import com.revature.rms.employee.documents.Employee;
 import com.revature.rms.employee.services.EmployeeService;
 import org.springframework.web.bind.annotation.*;
 

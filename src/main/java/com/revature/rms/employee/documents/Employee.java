@@ -1,4 +1,4 @@
-package com.revature.rms.employee.entities;
+package com.revature.rms.employee.documents;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.revature.rms.core.models.Resource;

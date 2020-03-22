@@ -1,9 +1,9 @@
 package com.revature.rms.employee.config;
 
 import com.revature.rms.core.models.ResourceMetadata;
-import com.revature.rms.employee.entities.Department;
-import com.revature.rms.employee.entities.Employee;
-import com.revature.rms.employee.entities.Title;
+import com.revature.rms.employee.documents.Department;
+import com.revature.rms.employee.documents.Employee;
+import com.revature.rms.employee.documents.Title;
 import com.revature.rms.employee.repos.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
