@@ -7,6 +7,7 @@ import com.revature.rms.employee.documents.Employee;
 import com.revature.rms.employee.services.EmployeeService;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/employees")
@@ -19,14 +20,19 @@ public class EmployeeController extends ResourceController<Employee> {
         this.employeeService = service;
     }
 
-    @GetMapping(value="/department/{dept}")
+    @GetMapping("/department/{dept}")
     public Flux<Employee> getEmployeesByDepartment(@PathVariable String dept) {
         return employeeService.findEmployeesByDepartment(dept);
     }
 
-    @GetMapping(value="/managerId/{managerId}")
+    @GetMapping("/managerId/{managerId}")
     public Flux<Employee> getEmployeesByManagerId(@PathVariable String managerId) {
         return employeeService.findEmployeesByManagerId(managerId);
+    }
+
+    @GetMapping("/email/{email}")
+    public Mono<Employee> getEmployeeByEmailAddress(@PathVariable String email) {
+        return employeeService.findEmployeeByEmail(email);
     }
 
 }
