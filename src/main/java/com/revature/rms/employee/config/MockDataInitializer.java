@@ -10,6 +10,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
+import java.util.Arrays;
+import java.util.List;
+
 @Profile("dev")
 @Configuration
 public class MockDataInitializer implements CommandLineRunner {
@@ -91,6 +94,7 @@ public class MockDataInitializer implements CommandLineRunner {
         Employee srTrainer4 = new Employee("5e768d0ef21b4b41fbbd3c5f", "Trevin", "Chester", "wezley.singleton@revature.com",
                 Title.SENIOR_TRAINER, Department.TRAINING, mngrTech.getId(), metadata);
         employeeRepo.save(srTrainer4).block();
+
         Employee trainer1 = new Employee("5e768d0ef21b4b41fbbd3c60", "Robert", "Connell", "robert.connell@revature.com",
                 Title.TRAINER, Department.TRAINING, mngrTech.getId(), metadata);
         employeeRepo.save(trainer1).block();
@@ -127,6 +131,99 @@ public class MockDataInitializer implements CommandLineRunner {
                 Title.ASSOCIATE_MENTOR, Department.RECRUITMENT, assocDirRec.getId(), metadata);
         employeeRepo.save(assocMentor).block();
 
+        List<Employee> stagingAssociates = Arrays.asList(
+
+            new Employee("5e768d0ef21b4b41fbbd3c69", "Abraham", "Selenke", "abraham.selenke@gmail.com", Title.SOFTWARE_DEV,
+                    Department.TRAINING, stgMngr.getId(), metadata),
+
+            new Employee("5e768d0ef21b4b41fbbd3c6a", "Andrew", "Peters", "andrew.peters@gmail.com", Title.SOFTWARE_DEV,
+                    Department.TRAINING, stgMngr.getId(), metadata),
+
+            new Employee("5e768d0ef21b4b41fbbd3c6b", "Hao", "Tran", "hao.tran@gmail.com", Title.SOFTWARE_DEV,
+                    Department.TRAINING, stgMngr.getId(), metadata),
+
+            new Employee("5e768d0ef21b4b41fbbd3c6c", "Jeremy", "Elam", "jeremy.elam@gmail.com", Title.SOFTWARE_DEV,
+                    Department.TRAINING, stgMngr.getId(), metadata),
+
+            new Employee("5e768d0ef21b4b41fbbd3c6d", "John", "Eng", "john.eng@gmail.com", Title.SOFTWARE_DEV,
+                    Department.TRAINING, stgMngr.getId(), metadata),
+
+            new Employee("5e768d0ef21b4b41fbbd3c6e", "Josef", "Bostik", "josef.bostik@gmail.com", Title.SOFTWARE_DEV,
+                    Department.TRAINING, stgMngr.getId(), metadata),
+
+            new Employee("5e768d0ef21b4b41fbbd3c6f", "Juan", "Valencia", "juan.valencia@gmail.com", Title.SOFTWARE_DEV,
+                    Department.TRAINING, stgMngr.getId(), metadata),
+
+            new Employee("5e768d0ef21b4b41fbbd3c70", "Kaneisha", "Reese", "kaneisha.reese@gmail.com", Title.SOFTWARE_DEV,
+                    Department.TRAINING, stgMngr.getId(), metadata),
+
+            new Employee("5e768d0ef21b4b41fbbd3c71", "Kennedy", "Wandelt", "kennedy.wandelt@gmail.com", Title.SOFTWARE_DEV,
+                    Department.TRAINING, stgMngr.getId(), metadata),
+
+            new Employee("5e768d0ef21b4b41fbbd3c72", "Kevin", "Wagenheim", "kevin.wagenheim@gmail.com", Title.SOFTWARE_DEV,
+                    Department.TRAINING, stgMngr.getId(), metadata),
+
+            new Employee("5e768d0ef21b4b41fbbd3c73", "Korey", "Keipe", "korey.keipe@gmail.com", Title.SOFTWARE_DEV,
+                        Department.TRAINING, stgMngr.getId(), metadata),
+
+            new Employee("5e768d0ef21b4b41fbbd3c74", "Scott", "Thoms", "scott.thoms@gmail.com", Title.SOFTWARE_DEV,
+                    Department.TRAINING, stgMngr.getId(), metadata),
+
+            new Employee("5e768d0ef21b4b41fbbd3c75", "Thomas", "Hoang", "thomas.hoang@gmail.com", Title.SOFTWARE_DEV,
+                    Department.TRAINING, stgMngr.getId(), metadata)
+        );
+
+        employeeRepo.saveAll(stagingAssociates).then().block();
+
+        // creator: admin, owner: nick j
+        ResourceMetadata metadata2 = new ResourceMetadata("5e70e8e8d798ce32e0ce9b64", "5e70e8e8d798ce32e0ce9b68");
+
+        // creator: admin, owner: wezley s
+        ResourceMetadata metadata3 = new ResourceMetadata("5e70e8e8d798ce32e0ce9b64", "5e70e8e8d798ce32e0ce9b6c");
+
+        List<Employee> trainingAssociates = Arrays.asList(
+
+                new Employee("5e768d0ef21b4b41fbbd3c76", "Charles", "McDonald", "charles.mcdonald@gmail.com", Title.ASSOCIATE,
+                        Department.TRAINING, leadTrainer2.getId(), metadata2),
+
+                new Employee("5e768d0ef21b4b41fbbd3c77", "David", "Peters", "david.peters@gmail.com", Title.ASSOCIATE,
+                        Department.TRAINING, leadTrainer2.getId(), metadata2),
+
+                new Employee("5e768d0ef21b4b41fbbd3c78", "Robert", "Davis", "robert.davis@gmail.com", Title.ASSOCIATE,
+                        Department.TRAINING, leadTrainer2.getId(), metadata2),
+
+                new Employee("5e768d0ef21b4b41fbbd3c79", "Jeremy", "Morgan", "jeremy.morgan@gmail.com", Title.ASSOCIATE,
+                        Department.TRAINING, leadTrainer2.getId(), metadata2),
+
+                new Employee("5e768d0ef21b4b41fbbd3c6d", "John", "Williams", "john.williams@gmail.com", Title.ASSOCIATE,
+                        Department.TRAINING, leadTrainer2.getId(), metadata2),
+
+                new Employee("5e768d0ef21b4b41fbbd3c7a", "Yusef", "Sadaani", "yusef.sadaani@gmail.com", Title.ASSOCIATE,
+                        Department.TRAINING, leadTrainer2.getId(), metadata2),
+
+                new Employee("5e768d0ef21b4b41fbbd3c7b", "Juan", "Rodriguez", "juan.rodriguez@gmail.com", Title.ASSOCIATE,
+                        Department.TRAINING, srTrainer2.getId(), metadata3),
+
+                new Employee("5e768d0ef21b4b41fbbd3c7c", "Tamica", "Green", "tamica.green@gmail.com", Title.ASSOCIATE,
+                        Department.TRAINING, srTrainer2.getId(), metadata3),
+
+                new Employee("5e768d0ef21b4b41fbbd3c7d", "Kenneth", "Hoang", "kenneth.hoang@gmail.com", Title.ASSOCIATE,
+                        Department.TRAINING, srTrainer2.getId(), metadata3),
+
+                new Employee("5e768d0ef21b4b41fbbd3c7e", "Derek", "White", "derek.white@gmail.com", Title.ASSOCIATE,
+                        Department.TRAINING, srTrainer2.getId(), metadata3),
+
+                new Employee("5e768d0ef21b4b41fbbd3c7f", "Keith", "Walker", "keith.walker@gmail.com", Title.ASSOCIATE,
+                        Department.TRAINING, srTrainer2.getId(), metadata3),
+
+                new Employee("5e768d0ef21b4b41fbbd3c80", "Erica", "Smith", "erica.smith@gmail.com", Title.ASSOCIATE,
+                        Department.TRAINING, srTrainer2.getId(), metadata3),
+
+                new Employee("5e768d0ef21b4b41fbbd381", "Jamal", "Davis", "jamal.davis@gmail.com", Title.ASSOCIATE,
+                        Department.TRAINING, srTrainer2.getId(), metadata3)
+        );
+
+        employeeRepo.saveAll(trainingAssociates).then().block();
 
         System.out.println("DATA SOURCE INIT COMPLETE");
 

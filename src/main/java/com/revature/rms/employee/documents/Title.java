@@ -23,6 +23,8 @@ public enum Title {
     TRAINING_ASSISTANT("Training Assistant"),
     LEAD_QC_ANALYST("Lead QC Analyst"),
     QUALITY_ANALYST("Quality Analyst"),
+    ASSOCIATE("Associate"),
+    SOFTWARE_DEV("Software Developer"),
 
     // HR Department
     HR_DIRECTOR("HR Director"),
